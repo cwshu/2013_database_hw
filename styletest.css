@@ -1,0 +1,60 @@
+body {
+    margin: 0px;
+}
+.fixed-header{
+    position: fixed;
+    width: 100%;
+    font-weight: bold;
+    color: #fff;
+    background-color: #00007f;
+    padding: 10px;
+}
+.fixed-header a{
+    font-weight: normal;
+    color: yellow;
+}
+.header{
+    width: 100%;
+    font-weight: bold;
+    color: #fff;
+    background-color: #00007f;
+    padding: 10px;
+}
+.header a{
+    font-weight: normal;
+    color: yellow;
+}
+
+.content1{
+}
+.article{
+    margin: 0px 20% 0px 0px;
+    border-width: 0px 1px 0px 0px;
+    border-style: solid;
+    border-color: #c0c0c0;
+}
+.article div{
+    margin: 0px;
+    padding: 20px;
+    border-width: 0px 0px 1px 0px;
+    border-style: solid;
+    border-color: #c0c0c0;
+}
+.article p{
+    margin: 0px;
+    width: 100%;
+}
+
+.friends{
+    float: right;
+    width: 20%;
+    text-align: center;
+}
+.friends h2{
+    margin: 5px 0;
+}
+.border{
+    border-style: solid;
+    border-width: 1px;
+    width: 100%;
+}
