@@ -3,7 +3,7 @@ function db_connection(){
     $db_host = "localhost";
     $db_user = "dbuser";
     $db_pwd  = "dbuser";
-    $db_name = "db_pj2";
+    $db_name = "db_pj3";
     $con = mysqli_connect($db_host, $db_user, $db_pwd, $db_name);
     return $con;
 }

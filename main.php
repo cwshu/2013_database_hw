@@ -52,18 +52,8 @@ if post parameter exist || session exist
     else error db connection
 else valid way goto this page
 */
+
 session_start();
-define("not_login",0);
-define("have_loginned",1); //save uid
-define("login_now",2);
-function db_connection(){
-    $db_host = "localhost";
-    $db_user = "dbuser";
-    $db_pwd  = "dbuser";
-    $db_name = "db_pj2";
-    $con = mysqli_connect($db_host, $db_user, $db_pwd, $db_name);
-    return $con;
-}
 $name_table = array();
 function uid_to_name($con, $uid){
     if(isset($name_table[$uid])){
@@ -77,15 +67,6 @@ function uid_to_name($con, $uid){
         $name_table[$uid] = $row["name"];
         return $name_table[$uid];
     }
-}
-function authentication($con, $uid, $password){
-    $sql = "select uid from users   
-            where uid = '".$uid."'
-            and password = md5('".$password."');";
-    $result = mysqli_query($con, $sql);
-    if(mysqli_num_rows($result) == 0) // no user/pwd match 
-        return false;
-    return true;
 }
 function list_all_friendid($con, $uid)
 {
@@ -115,6 +96,7 @@ function get_all_article($con, $postid_list)
         $sql = $sql."or uid = '".$postid_list[$i]."' ";
     }
     $sql = $sql."order by time desc;";
+    // select uid, content, time from articles where uid = 'aaa' {or uid = "bbb"} {or uid = "ccc"} order by time desc
 
     $result = mysqli_query($con, $sql);
     $num = mysqli_num_rows($result);
@@ -187,14 +169,8 @@ function tem_html_article($articles){ // element: uid, content, time
     return $html_article;
 }
 // main
-$way_to_page = not_login;
-if(isset($_SESSION["uid"])) 
-    $way_to_page = have_loginned;
-else if(isset($_POST['uid']))
-    $way_to_page = login_now;
-
-if($way_to_page != not_login)
-{
+if(isset($_SESSION["uid"])){
+    include "./db_connect.php";
     // connect db
     $con = db_connection();
     if(mysqli_connect_errno($con)){
@@ -202,43 +178,26 @@ if($way_to_page != not_login)
     }
     else{
         // preprocess: get uid (check if password is true)
-        $login_success = 1;
-        if($way_to_page == login_now){
-            $uid = mysqli_real_escape_string($con, $_POST['uid']);
-            $password = mysqli_real_escape_string($con, $_POST['password']);
-            if(!authentication($con, $uid, $password)){
-                echo "wrong password";
-                $login_success = 0;
-            }
-            else{ // login success, save user in session
-                $_SESSION["uid"] = $uid;
-            }
-        }
-        else if($way_to_page == have_loginned){
-            $uid = $_SESSION["uid"];
-        }
-        if($login_success || $way_to_page = have_loginned)
-        {
-            // select username $html_header
-            $username = uid_to_name($con, $uid);
-            $html_header = tem_html_header($username, $uid);
-            // select all your friend
-            $friendid_list = list_all_friendid($con, $uid);
+        $uid = $_SESSION["uid"];
+        // select username $html_header
+        $username = uid_to_name($con, $uid);
+        $html_header = tem_html_header($username, $uid);
+        // select all your friend
+        $friendid_list = list_all_friendid($con, $uid);
 
-            $html_friend = tem_html_friend($friendid_list);
-            $articleid_list = $friendid_list;
-            $articleid_list[] = $uid;
-            $articles = get_all_article($con, $articleid_list);
-            $html_article = tem_html_article($articles);
+        $html_friend = tem_html_friend($friendid_list);
+        $articleid_list = $friendid_list;
+        $articleid_list[] = $uid;   // $articleid_list.append("$uid")
+        $articles = get_all_article($con, $articleid_list);
+        $html_article = tem_html_article($articles);
 
-            $html_page = 
-            $html_header."
-            <div class=content1>
-            ".$html_friend.$html_article."
-            </div>";
+        $html_page = 
+        $html_header."
+        <div class=content1>
+        ".$html_friend.$html_article."
+        </div>";
 
-            echo $html_page;
-        }
+        echo $html_page;
 
         mysqli_close($con);
     }
