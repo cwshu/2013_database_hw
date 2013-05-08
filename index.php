@@ -4,12 +4,13 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
     <link rel="stylesheet" href="./index.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
     <title>facenote login</title>
 </head>
 <body>
     <div class="header">
         <h1>歡迎來到 Facenote</h1>
-        <form method="post" action="main.php">
+        <form method="post" action="login.php">
             <p class="account">Account: <br /><input type="text" name="uid" /></p>
             <p class="password">Password: <br /><input type="password" name="password" /></p>
             <input class="button" type="submit" value="login"/>
@@ -24,5 +25,11 @@
     date_default_timezone_set("Asia/Taipei");
     echo "<br />現在時間: ".date("Y-m-d H:i:s",time())."<br />
                 "; ?>
+    <!--
+    jQuery :)
+    <script>
+        alert($("h1").text());
+    </script>
+    -->
 </body>
 </html>
