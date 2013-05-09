@@ -1,34 +1,3 @@
-<!--
-<!DOCTYPE html>
-<html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-    <link rel="stylesheet" href="./main.css">
-    <title>main</title>
-</head>
-<body>
-    <div class=\"fixed-header\" >
-        Welcome ".$username." !<br />
-        <a href=\"./userinfo.php?id=".$uid."\">User Info</a>
-        <a href=\"./logout.php\">Logout</a>
-    </div>
-    <div class=\"header\">
-        Welcome Username !<br />
-        <a href=\"./userinfo.php\">User Info</a>
-        <a href=\"./logout.php\">Logout</a>
-    </div>";
-    <div class=\"article\">
-        <div class=\"friends\">
-           <h2>Friends</h2>"
-           .$html_friend."
-        </div>";
-    <div class=\"article\">
-    ".$html_article."
-    </div>";
-    </div>";
-</body>
-</html>
--->
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,21 +7,6 @@
 </head>
 <body>
 <?php
-/*
-if post parameter exist || session exist
-    if mysql_connect true
-        if post
-            if correct pwd
-            else wrong password, break;
-        
-        got user's all friend
-        got their all post
-
-        end mysql_connect
-    else error db connection
-else valid way goto this page
-*/
-
 session_start();
 $name_table = array();
 function uid_to_name($con, $uid){
@@ -146,7 +100,25 @@ function tem_html_friend($friendid_list){
 
     return $html_friend;
 }
-function tem_html_article($articles){ // element: uid, content, time
+function tem_html_article($articles){
+    $html_article = "
+    <div class=\"article\">
+    ".tem_html_post_article().tem_html_show_article($articles)."
+    </div>";
+
+    return $html_article;
+}
+function tem_html_post_article(){
+    $html_article = "
+    <div>
+        <form method=\"post\" action=\"./post_article.php\">
+        <textarea name=\"content\"></textarea>
+        <input type=\"submit\" value=\"留言\">
+    </div>
+    ";
+    return $html_article;
+}
+function tem_html_show_article($articles){ // element: uid, content, time
     global $con;
     $article_num = count($articles);
     $html_article = "";
@@ -161,11 +133,6 @@ function tem_html_article($articles){ // element: uid, content, time
         </div>";
         $html_article = $html_article.$_html_article;
     }
-        $html_article = "
-        <div class=\"article\">
-        ".$html_article."
-        </div>";
-
     return $html_article;
 }
 // main
@@ -177,7 +144,7 @@ if(isset($_SESSION["uid"])){
         echo "Fail to connect to MySQL: ".mysqli_connect_error();
     }
     else{
-        // preprocess: get uid (check if password is true)
+        //if having logined
         $uid = $_SESSION["uid"];
         // select username $html_header
         $username = uid_to_name($con, $uid);

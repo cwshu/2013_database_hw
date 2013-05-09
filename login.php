@@ -1,5 +1,4 @@
 <?php
-
 if(isset($_POST['uid']) && isset($_POST['password']))
 {
 function authentication($uid, $password){
@@ -8,7 +7,9 @@ function authentication($uid, $password){
     $sql = "select uid from users   
             where uid = '".$uid."'
             and password = md5('".$password."');";
+    //echo $sql."<br />";
     $result = mysqli_query($con, $sql);
+    //echo mysqli_num_rows($result); // no user/pwd match 
     if(mysqli_num_rows($result) == 0) // no user/pwd match 
         return false;
     return true;
@@ -29,7 +30,7 @@ function authentication($uid, $password){
         }
         else{ // login success, save user in session, and redirect to main page
             $_SESSION["uid"] = $uid;
-            echo $_SESSION["uid"];
+            //echo $_SESSION["uid"];
             header("Location: ./main.php");
         }
     }
