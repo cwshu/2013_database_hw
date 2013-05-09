@@ -27,6 +27,7 @@ function insert_account($uid, $password, $name, $email, $birthday, $sex){
     //$date = date("Y-m-d H:i:s", time());
     $sql = "insert into users
             values ('".$uid."', md5('".$password."'), '".$name."', '".$email."', '".$birthday."','".$sex."');";
+    echo $sql;
     mysqli_query($con, $sql); 
 }
 

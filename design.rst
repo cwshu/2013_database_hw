@@ -9,13 +9,13 @@ index.php    // 首頁
 main.php     // FN 主頁面
 - list article
 - list friend
-- post article =>
+- post article => post_article.php
 - like article 
 
 userinfo.php 
-- list userinfo
+- list userinfo 
 - list friend
-- add friend
+- add friend => add_friend.php
 
 logout.php   // close session
 
@@ -28,6 +28,6 @@ friends
 - uid, friend_id, relationship
 articles
 - uid, postid, content, time
-like
+likes
 - postid, uid
 

@@ -1,0 +1,30 @@
+h1 {
+    margin: 0px;
+}
+
+body {
+    margin: 0px;
+}
+
+.content div{
+    margin: 0px;
+    padding: 3px 10px;
+}
+
+.add_friend p{
+    margin: 0px;
+    padding: 0px;
+}
+
+.content{
+    background-color:#cfcfff;
+    margin: 0px;
+    padding: 20px;
+    border-style: solid;
+    border-width: 3px;
+    border-color: #7f7fff;
+}
+
+.add_friend span{
+    padding: 0 20px 0 0;
+}

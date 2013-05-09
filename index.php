@@ -3,7 +3,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-    <!-- <link rel="stylesheet" href="./index.css"> -->
+    <link rel="stylesheet" href="./index.css">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
     <title>facenote login</title>
 </head>
@@ -17,23 +17,23 @@
         </form>
     </div>
     <div class="body">
-        Facenote 能幫助你與生活中的人們互相嘴砲，並與它們一起浪費寶貴的生命。
-    </div>
-    <div>
-        <form method="post" action="signup.php">
-            <div>Account: <input type="text" name="uid" /></div> 
-            <div>Password: <input type="password" name="password" /></div>
-            <div>Password again: <input type="password" name="password_again" /></div>
-            <div>Name: <input type="text" name="name" /></div> 
-            <div>Email: <input type="text" name="email" /></div> 
-            <div>Birthday: <input type="text" name="birthday" /></div> 
-            <div>Sex: 
-                <input type="radio" name="sex" value="M"/>Male 
-                <input type="radio" name="sex" value="F"/>Female
-            </div> 
-            <input class="button" type="submit" value="sign up"/>
-        </form>
-        <!-- <a href="./" target="_blank">驗證</a> -->
+        <div class="msg">Facenote 能幫助你與生活中的人們互相嘴砲，<br />並與它們一起浪費寶貴的生命。</div>
+        <div class="signup">
+            <form method="post" action="signup.php">
+                <div>Account: <input type="text" name="uid" /></div> 
+                <div>Password: <input type="password" name="password" /></div>
+                <div>Password again: <input type="password" name="password_again" /></div>
+                <div>Name: <input type="text" name="name" /></div> 
+                <div>Email: <input type="text" name="email" /></div> 
+                <div>Birthday: <input type="text" name="birthday" /></div> 
+                <div>Sex: 
+                    <input type="radio" name="sex" value="M"/>Male 
+                    <input type="radio" name="sex" value="F"/>Female
+                </div> 
+                <input class="button" type="submit" value="sign up"/>
+            </form>
+            <!-- <a href="./" target="_blank">驗證</a> -->
+        </div>
     </div>
     <?php 
     /*

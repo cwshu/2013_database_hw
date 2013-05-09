@@ -33,3 +33,17 @@ body{
     border-width: 3px;
     border-color: #7f7fff;
 }
+.body div{
+    width: 50%;
+}
+.body div.msg{
+    float: left;
+}
+.body div.signup{
+    margin: 0px 0px 0px 50%;
+    border-width: 0px 0px 0px 1px;
+    border-style: solid;
+    border-color: #c0c0c0;
+    padding: 0 0 0 5%;
+    text-align: left;
+}

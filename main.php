@@ -25,31 +25,50 @@ function list_all_friendid($con, $uid)
     }
     return $friendid_list;
 }
-function get_all_article($con, $postid_list)
+function like_population($postid){
+    global $con;
+    $sql = "select count(*) from likes where postid = '".$postid."';";
+    $result = mysqli_query($con, $sql);
+    $row = mysqli_fetch_array($result);
+    return $row["count(*)"];
+}
+function is_like($postid, $uid){
+    global $con;
+    $sql = "select * from likes where postid = '".$postid."' and uid = '".$uid."';";
+    // echo $sql."<br />";
+    $result = mysqli_query($con, $sql);
+    $num = mysqli_num_rows($result);
+    if($num == 0)
+        return False;
+    return True;
+}
+function get_all_article($con, $postid_list, $uid)
 {
     $articles = array();
     $people_num = count($postid_list);
     if($people_num == 0)
         return $articles;
-    $sql = "select uid, content, time from articles
+    $sql = "select uid, postid, content, time from articles
             where uid = '".$postid_list[0]."' ";
     for($i = 1; $i < $people_num; $i++)
     {
         $sql = $sql."or uid = '".$postid_list[$i]."' ";
     }
     $sql = $sql."order by time desc;";
-    // select uid, content, time from articles where uid = 'aaa' {or uid = "bbb"} {or uid = "ccc"} order by time desc
-
+    // select uid, postid, content, time from articles where uid = 'aaa' {or uid = "bbb"} {or uid = "ccc"} order by time desc
     $result = mysqli_query($con, $sql);
     $num = mysqli_num_rows($result);
     for($i = 0; $i < $num; $i++)
     {
         $row = mysqli_fetch_array($result);
-        $articles[] = array(
+        $articles[$i] = array(
         "uid" => $row["uid"] ,
         "content" => $row["content"] ,
-        "time" => $row["time"]
+        "time" => $row["time"],
+        "postid" => $row["postid"]
         );
+        $articles[$i]["like_population"] = like_population($articles[$i]["postid"]);
+        $articles[$i]["is_like"] = is_like($articles[$i]["postid"], $uid);
     }
     return $articles;
 }
@@ -97,12 +116,21 @@ function tem_html_show_article($articles){ // element: uid, content, time
     $html_article = "";
     for($i = 0; $i < $article_num; $i++)
     {
+        if($articles[$i]["is_like"])
+            $like_msg = "";
+        else
+            $like_msg = "like";
+
         $_html_article = "
         <div>
            <p><a href=\"./userinfo.php?id=".$articles[$i]["uid"]."\" class=\"name\">
            ".uid_to_name($articles[$i]['uid'])."</a> says </p>
            <p class=\"border\">".$articles[$i]['content']."</p>
-           <p>".$articles[$i]['time']."</p>
+           <p>
+               ".$articles[$i]["like_population"]."
+               <a href=\"./like.php?postid=".$articles[$i]["postid"]."\">".$like_msg."</a>
+               <span>".$articles[$i]['time']."</span>
+           </p>
         </div>";
         $html_article = $html_article.$_html_article;
     }
@@ -111,7 +139,6 @@ function tem_html_show_article($articles){ // element: uid, content, time
 // main
 if(isset($_SESSION["uid"])){
     include "./db_connect.php";
-    // connect db
     $con = db_connection();
     if(mysqli_connect_errno($con)){
         echo "Fail to connect to MySQL: ".mysqli_connect_error();
@@ -127,7 +154,7 @@ if(isset($_SESSION["uid"])){
         $html_friend = tem_html_friend($friendid_list);
         $articleid_list = $friendid_list;
         $articleid_list[] = $uid;   // $articleid_list.append("$uid")
-        $articles = get_all_article($con, $articleid_list);
+        $articles = get_all_article($con, $articleid_list, $uid);
         $html_article = tem_html_article($articles);
 
         $html_page = 
