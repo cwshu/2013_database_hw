@@ -2,26 +2,14 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <link rel="stylesheet" href="./base.css">
     <link rel="stylesheet" href="./main.css">
     <title>main</title>
 </head>
 <body>
 <?php
 session_start();
-$name_table = array();
-function uid_to_name($con, $uid){
-    if(isset($name_table[$uid])){
-        return $name_table[$uid];
-    }
-    else{
-        $sql = "select name from users
-                where uid = '".$uid."';";
-        $result = mysqli_query($con, $sql);
-        $row = mysqli_fetch_array($result);
-        $name_table[$uid] = $row["name"];
-        return $name_table[$uid];
-    }
-}
+include "./base.php";
 function list_all_friendid($con, $uid)
 {
     $sql = "select friend_id from friends
@@ -66,21 +54,6 @@ function get_all_article($con, $postid_list)
     return $articles;
 }
 // html templates
-function tem_html_header($username, $uid){
-    $html_header = "
-    <div class=\"fixed-header\" >
-        Welcome ".$username." !<br />
-        <a href=\"./userinfo.php?id=".$uid."\">User Info</a>
-        <a href=\"./logout.php\">Logout</a>
-    </div>
-    <div class=\"header\">
-        Welcome Username !<br />
-        <a href=\"./userinfo.php\">User Info</a>
-        <a href=\"./logout.php\">Logout</a>
-    </div>";
-
-    return $html_header;
-}
 function tem_html_friend($friendid_list){
     global $con;
     $friend_num = count($friendid_list);
@@ -89,7 +62,7 @@ function tem_html_friend($friendid_list){
     {
         $html_friend_temp = "
         <a href=\"./userinfo.php?id=".$friendid_list[$i]."\">
-        ".uid_to_name($con, $friendid_list[$i])." <br /></a>";
+        ".uid_to_name($friendid_list[$i])." <br /></a>";
         $html_friend = $html_friend.$html_friend_temp;
     }
     $html_friend = "
@@ -127,7 +100,7 @@ function tem_html_show_article($articles){ // element: uid, content, time
         $_html_article = "
         <div>
            <p><a href=\"./userinfo.php?id=".$articles[$i]["uid"]."\" class=\"name\">
-           ".uid_to_name($con, $articles[$i]['uid'])."</a> says </p>
+           ".uid_to_name($articles[$i]['uid'])."</a> says </p>
            <p class=\"border\">".$articles[$i]['content']."</p>
            <p>".$articles[$i]['time']."</p>
         </div>";
@@ -147,8 +120,7 @@ if(isset($_SESSION["uid"])){
         //if having logined
         $uid = $_SESSION["uid"];
         // select username $html_header
-        $username = uid_to_name($con, $uid);
-        $html_header = tem_html_header($username, $uid);
+        $html_header = tem_html_header($uid);
         // select all your friend
         $friendid_list = list_all_friendid($con, $uid);
 

@@ -13,6 +13,7 @@ function authentication($uid, $password){
     if(mysqli_num_rows($result) == 0) // no user/pwd match 
         return false;
     return true;
+    
 }
     session_start();
 
