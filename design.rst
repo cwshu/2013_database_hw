@@ -10,7 +10,7 @@ main.php     // FN 主頁面
 - list article
 - list friend
 - post article => post_article.php
-- like article 
+- like article => like.php
 
 userinfo.php 
 - list userinfo 
@@ -31,3 +31,18 @@ articles
 likes
 - postid, uid
 
+pages
+=====
+base.php (base.css)
+index.php (index.css)
+main.php (main.css)
+userinfo.php (userinfo.css)
+
+db_connect.php
+
+login.php
+logout.php
+signup.php
+post_article.php
+add_friend.php
+like.php
