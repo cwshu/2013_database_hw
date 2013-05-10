@@ -39,3 +39,10 @@ body {
     border-width: 1px;
     width: 100%;
 }
+.time{
+    text-align: right;
+    float: right;
+}
+.it{
+    font-style: italic;    
+}

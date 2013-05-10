@@ -1,6 +1,7 @@
 pages
 =====
 db_connect.php // for all page need db
+base.php // 
 
 index.php    // 首頁
 - login => login.php (select)

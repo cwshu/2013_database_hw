@@ -127,9 +127,9 @@ function tem_html_show_article($articles){ // element: uid, content, time
            ".uid_to_name($articles[$i]['uid'])."</a> says </p>
            <p class=\"border\">".$articles[$i]['content']."</p>
            <p>
-               ".$articles[$i]["like_population"]."
                <a href=\"./like.php?postid=".$articles[$i]["postid"]."\">".$like_msg."</a>
-               <span>".$articles[$i]['time']."</span>
+               <span>".$articles[$i]["like_population"]." like </span>
+               <span class=\"time\"> <span class=\"it\">posted at </span>".$articles[$i]['time']."</span>
            </p>
         </div>";
         $html_article = $html_article.$_html_article;
