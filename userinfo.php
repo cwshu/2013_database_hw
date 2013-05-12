@@ -127,7 +127,6 @@ else
                  <div class=\"content\">
                     ".$html_userinfo.$html_add_friend.$html_friend."
                  </div>";
-        
     echo $html_page;
 }
 ?>

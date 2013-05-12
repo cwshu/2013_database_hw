@@ -1,4 +1,4 @@
-.fixed-header{
+.fixed_header{
     position: fixed;
     width: 100%;
     font-weight: bold;
@@ -6,7 +6,21 @@
     background-color: #00007f;
     padding: 10px;
 }
-.fixed-header a{
+.fixed_header .logo{
+    font-size: 20px;
+    padding: 0 20px 0 20px;
+}
+.fixed_header .function{
+    float: right;
+    padding: 0 20px 0 0;
+}
+.fixed_header .function a{
+    border-width: 0 0 0 2px;
+    border-style: solid;
+    border-color: #808080;
+    padding-left: 5px;
+}
+.fixed_header a{
     font-weight: normal;
     color: yellow;
 }
@@ -16,6 +30,20 @@
     color: #fff;
     background-color: #00007f;
     padding: 10px;
+}
+.header .logo{
+    font-size: 20px;
+    padding: 0 20px 0 20px;
+}
+.header .function{
+    float: right;
+    padding: 0 20px 0 0;
+}
+.header .function a{
+    border-width: 0 0 0 2px;
+    border-style: solid;
+    border-color: #808080;
+    padding-left: 5px;
 }
 .header a{
     font-weight: normal;

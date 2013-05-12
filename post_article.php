@@ -1,6 +1,7 @@
 <?php
 function insert_article($uid, $content){
     global $con;
+    date_default_timezone_set("Asia/Taipei");
     $date = date("Y-m-d H:i:s", time());
     //echo $content."<br />";
     $content = htmlspecialchars($content); // XSS attack

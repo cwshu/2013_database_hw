@@ -104,14 +104,15 @@ function tem_html_post_article(){
     $html_article = "
     <div>
         <form method=\"post\" action=\"./post_article.php\">
-        <textarea name=\"content\"></textarea>
-        <input type=\"submit\" value=\"留言\">
+            <span>想說的話...</br /></span>
+            <textarea name=\"content\"></textarea>
+            <input type=\"submit\" value=\"留言\">
+        </form>
     </div>
     ";
     return $html_article;
 }
 function tem_html_show_article($articles){ // element: uid, content, time
-    global $con;
     $article_num = count($articles);
     $html_article = "";
     for($i = 0; $i < $article_num; $i++)

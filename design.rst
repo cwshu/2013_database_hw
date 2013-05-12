@@ -47,3 +47,6 @@ signup.php
 post_article.php
 add_friend.php
 like.php
+
+====
+MVC 

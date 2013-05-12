@@ -25,6 +25,17 @@ body {
     font-size: 18px;
     color: blue;
 }
+.article form span{
+    font-size: 14px;
+    color: #808080;
+    font-style: italic;    
+}
+.article textarea{
+    margin: 0;
+    padding: 0;
+    resize: none;
+    width: 100%;
+}
 
 .friends{
     float: right;
