@@ -160,7 +160,7 @@ if(isset($_SESSION["uid"])){
 
         $html_page = 
         $html_header."
-        <div class=content1>
+        <div class=\"content\">
         ".$html_friend.$html_article."
         </div>";
 

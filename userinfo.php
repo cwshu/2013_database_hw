@@ -1,28 +1,3 @@
-<!-- uid information 
-name
-email
-birthday
-back to main page
--->
-<!--
-<!DOCTYPE html>
-<html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-    <title>uid information</title>
-</head>
-<body>
-    <h1>$username</h1>
-    <p>
-        Email: $email
-        Birthday: $birthday
-        <a href="./main.php">Back to main page</a>
-    </p>
-    <a href="./logout.php">Logout</a>
-</body>
-</html>
--->
-
 <!DOCTYPE html>
 <html>
 <head>
