@@ -1,17 +1,18 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\" />
-    <link rel="stylesheet" href="./base.css" />
-    <link rel="stylesheet" href="./userinfo.css" />
-    <title>uid information</title>
-</head>
-<body>
 <?php
 include_once "./db_connect.php";
 include_once "./base.php";
 include_once "./model/search.php";
-
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\" />
+    <link rel="stylesheet" href="<?php echo "$static_path"?>base.css" />
+    <link rel="stylesheet" href="<?php echo "$static_path"?>userinfo.css" />
+    <title>uid information</title>
+</head>
+<body>
+<?php
 // html templates
 function tem_html_userinfo($username, $email, $birthday){
     $html_userinfo = "

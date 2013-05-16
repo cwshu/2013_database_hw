@@ -1,5 +1,6 @@
 <?php
-
+// static files (.css/.js files, images ...)
+$static_path = "./static/";
 // base php function
 $name_table = array();
 function uid_to_name($uid){

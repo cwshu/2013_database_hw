@@ -1,9 +1,12 @@
+<?php
+    include_once "./base.php";
+?>
 <!-- login page -->
 <!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-    <link rel="stylesheet" href="./index.css" />
+    <link rel="stylesheet" href="<?php echo "$static_path"?>index.css" />
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
     <title>Welcome Facenote!!!</title>
 </head>
