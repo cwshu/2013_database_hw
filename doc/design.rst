@@ -23,7 +23,7 @@ pages
 =====
 Direct pages
 ------------
-| base.php (base.css)
+| tem_header.php (base.css)
 | index.php (index.css)
 | main.php (main.css)
 | userinfo.php (userinfo.css)
@@ -48,6 +48,9 @@ model
 -----
 | /model/search.php
 | /model/insert.php
+| /model/delete.php
 
 template
 --------
+| /template/tem_header.php
+| /template/template.php
