@@ -2,12 +2,17 @@
 <html>
 <head>
     <meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\" />
-    <link rel="stylesheet" href="./base.css">
-    <link rel="stylesheet" href="./userinfo.css">
+    <link rel="stylesheet" href="./base.css" />
+    <link rel="stylesheet" href="./userinfo.css" />
     <title>uid information</title>
 </head>
 <body>
 <?php
+include_once "./db_connect.php";
+include_once "./base.php";
+include_once "./model/search.php";
+
+// html templates
 function tem_html_userinfo($username, $email, $birthday){
     $html_userinfo = "
         <div class=\"userinfo\">
@@ -20,23 +25,6 @@ function tem_html_userinfo($username, $email, $birthday){
 
     return $html_userinfo;
 }
-function list_all_friendid($uid)
-{
-    global $con;
-    $sql = "select friend_id from friends
-            where uid = '".$uid."';";
-    // echo "<h2>list_all_friendid</h2>".$sql;
-    $result = mysqli_query($con, $sql);
-    $friend_num = mysqli_num_rows($result);
-    $friendid_list = array();
-    for($i = 0; $i < $friend_num; $i++)
-    {
-        $row = mysqli_fetch_array($result);
-        $friendid_list[] = $row["friend_id"];
-    }
-    return $friendid_list;
-}
-// html templates
 function tem_html_friend($friendid_list){
     global $con;
     $friend_num = count($friendid_list);
@@ -68,26 +56,23 @@ function tem_html_add_friend(){
     ";
     return $html_add_friend;
 }
+// controller
+function userinfo(){
+    global $con;
+    $con = db_connection();
+    if(mysqli_connect_errno($con))
+        return "Fail to connect to MySQL: ".mysqli_connect_error();
 
-include "./db_connect.php";
-include "./base.php";
-$con = db_connection();
-if(mysqli_connect_errno($con))
-{
-    echo "Fail to connect to MySQL: ".mysqli_connect_error();
-}
-else
-{ 
     session_start();
-    $uid = $_GET["id"];  // the uid of userinfo page;
+    if(isset($_GET["id"]))
+        $uid = $_GET["id"];  // the uid of userinfo page;
+    else
+        $uid = $_SESSION["uid"];
 
-    $sql = "select name, email, birthday from users where uid ='".$uid."';";
-    //username, email, birthday for $uid
-    $result = mysqli_query($con, $sql);
-    $row = mysqli_fetch_array($result);
-    $username = $row["name"];
-    $email = $row["email"];
-    $birthday = $row["birthday"];
+    $myinfo = list_userinfo($uid);
+    $username = $myinfo["name"];
+    $email = $myinfo["email"];
+    $birthday = $myinfo["birthday"];
 
     $html_header = tem_html_header($_SESSION["uid"]);
     $html_userinfo = tem_html_userinfo($username, $email, $birthday);
@@ -95,6 +80,7 @@ else
         $html_add_friend = tem_html_add_friend();
     else
         $html_add_friend = "";
+
     $friendid_list = list_all_friendid($uid);
     $html_friend = tem_html_friend($friendid_list);
 
@@ -102,8 +88,12 @@ else
                  <div class=\"content\">
                     ".$html_userinfo.$html_add_friend.$html_friend."
                  </div>";
-    echo $html_page;
+
+    mysqli_close($con);
+    return $html_page;
 }
+
+    echo userinfo();
 ?>
 
 </body>

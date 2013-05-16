@@ -1,6 +1,6 @@
 <?php
 
-// base function
+// base php function
 $name_table = array();
 function uid_to_name($uid){
     global $con;
@@ -16,6 +16,16 @@ function uid_to_name($uid){
         $name_table[$uid] = $row["name"];
         return $name_table[$uid];
     }
+}
+// base html/css/js function
+function alert_msg($msg){
+    return "<script>alert(\"".$msg."\")</script>";
+}
+function back_hyperlink($path, $view){
+    return "<a href=\"".$path."\">Back to ".$view."</a>";
+}
+function redirect($path){
+    return "<script>document.location.href=\"".$path."\"</script>";
 }
 // HTML template
 function tem_html_header($uid){

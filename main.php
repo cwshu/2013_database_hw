@@ -2,76 +2,16 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-    <link rel="stylesheet" href="./base.css">
-    <link rel="stylesheet" href="./main.css">
-    <title>main</title>
+    <link rel="stylesheet" href="./base.css" />
+    <link rel="stylesheet" href="./main.css" />
+    <title>Facenote</title>
 </head>
 <body>
 <?php
-session_start();
-include "./base.php";
-function list_all_friendid($con, $uid)
-{
-    $sql = "select friend_id from friends
-            where uid = '".$uid."';";
-    // echo "<h2>list_all_friendid</h2>".$sql;
-    $result = mysqli_query($con, $sql);
-    $friend_num = mysqli_num_rows($result);
-    $friendid_list = array();
-    for($i = 0; $i < $friend_num; $i++)
-    {
-        $row = mysqli_fetch_array($result);
-        $friendid_list[] = $row["friend_id"];
-    }
-    return $friendid_list;
-}
-function like_population($postid){
-    global $con;
-    $sql = "select count(*) from likes where postid = '".$postid."';";
-    $result = mysqli_query($con, $sql);
-    $row = mysqli_fetch_array($result);
-    return $row["count(*)"];
-}
-function is_like($postid, $uid){
-    global $con;
-    $sql = "select * from likes where postid = '".$postid."' and uid = '".$uid."';";
-    // echo $sql."<br />";
-    $result = mysqli_query($con, $sql);
-    $num = mysqli_num_rows($result);
-    if($num == 0)
-        return False;
-    return True;
-}
-function get_all_article($con, $postid_list, $uid)
-{
-    $articles = array();
-    $people_num = count($postid_list);
-    if($people_num == 0)
-        return $articles;
-    $sql = "select uid, postid, content, time from articles
-            where uid = '".$postid_list[0]."' ";
-    for($i = 1; $i < $people_num; $i++)
-    {
-        $sql = $sql."or uid = '".$postid_list[$i]."' ";
-    }
-    $sql = $sql."order by time desc;";
-    // select uid, postid, content, time from articles where uid = 'aaa' {or uid = "bbb"} {or uid = "ccc"} order by time desc
-    $result = mysqli_query($con, $sql);
-    $num = mysqli_num_rows($result);
-    for($i = 0; $i < $num; $i++)
-    {
-        $row = mysqli_fetch_array($result);
-        $articles[$i] = array(
-        "uid" => $row["uid"] ,
-        "content" => $row["content"] ,
-        "time" => $row["time"],
-        "postid" => $row["postid"]
-        );
-        $articles[$i]["like_population"] = like_population($articles[$i]["postid"]);
-        $articles[$i]["is_like"] = is_like($articles[$i]["postid"], $uid);
-    }
-    return $articles;
-}
+include_once "./base.php";
+include_once "./db_connect.php";
+include_once "./model/search.php";
+
 // html templates
 function tem_html_friend($friendid_list){
     global $con;
@@ -130,7 +70,9 @@ function tem_html_show_article($articles){ // element: uid, content, time
            <p>
                <a href=\"./like.php?postid=".$articles[$i]["postid"]."\">".$like_msg."</a>
                <span>".$articles[$i]["like_population"]." like </span>
-               <span class=\"time\"> <span class=\"it\">posted at </span>".$articles[$i]['time']."</span>
+               <span class=\"time\"> 
+                  <span class=\"it\">posted at </span>".$articles[$i]['time']."
+               </span>
            </p>
         </div>";
         $html_article = $html_article.$_html_article;
@@ -138,39 +80,38 @@ function tem_html_show_article($articles){ // element: uid, content, time
     return $html_article;
 }
 // main
-if(isset($_SESSION["uid"])){
-    include "./db_connect.php";
+function mainpage(){
+    session_start();
+    if(!isset($_SESSION["uid"]))
+        return "valid way goto this page";
+
+    global $con;
     $con = db_connection();
-    if(mysqli_connect_errno($con)){
-        echo "Fail to connect to MySQL: ".mysqli_connect_error();
-    }
-    else{
-        //if having logined
-        $uid = $_SESSION["uid"];
-        // select username $html_header
-        $html_header = tem_html_header($uid);
-        // select all your friend
-        $friendid_list = list_all_friendid($con, $uid);
+    if(mysqli_connect_errno($con))
+        return "Fail to connect to MySQL: ".mysqli_connect_error();
 
-        $html_friend = tem_html_friend($friendid_list);
-        $articleid_list = $friendid_list;
-        $articleid_list[] = $uid;   // $articleid_list.append("$uid")
-        $articles = get_all_article($con, $articleid_list, $uid);
-        $html_article = tem_html_article($articles);
+    $uid = $_SESSION["uid"];
+    $html_header = tem_html_header($uid);
+    // select all your friend
+    $friendid_list = list_all_friendid($uid);
 
-        $html_page = 
-        $html_header."
-        <div class=\"content\">
+    $html_friend = tem_html_friend($friendid_list);
+    $articleid_list = $friendid_list;
+    $articleid_list[] = $uid;   // $articleid_list.append("$uid")
+    $articles = get_all_article($articleid_list, $uid);
+    $html_article = tem_html_article($articles);
+
+    $html_page = 
+    $html_header."
+    <div class=\"content\">
         ".$html_friend.$html_article."
-        </div>";
+    </div>";
 
-        echo $html_page;
-
-        mysqli_close($con);
-    }
+    mysqli_close($con);
+    return $html_page;
 }
-else
-    echo "valid way goto this page";
+
+echo mainpage();
 ?>
 </body>
 </html>

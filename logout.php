@@ -1,6 +1,9 @@
 <?php
-    session_start();
-    unset($_SESSION['uid']);
+    function logout(){
+        session_start();
+        unset($_SESSION['uid']);
+    }
+    logout();
 ?>
 <!DOCTYPE html>
 <html>
