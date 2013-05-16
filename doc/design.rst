@@ -49,3 +49,5 @@ model
 | /model/search.php
 | /model/insert.php
 
+template
+--------

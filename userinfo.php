@@ -2,61 +2,19 @@
 include_once "./db_connect.php";
 include_once "./base.php";
 include_once "./model/search.php";
+include_once "./template/template.php";
+include_once "./template/tem_header.php";
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
     <link rel="stylesheet" href="<?php echo "$static_path"?>base.css" />
     <link rel="stylesheet" href="<?php echo "$static_path"?>userinfo.css" />
-    <title>uid information</title>
+    <title>user information</title>
 </head>
 <body>
 <?php
-// html templates
-function tem_html_userinfo($username, $email, $birthday){
-    $html_userinfo = "
-        <div class=\"userinfo\">
-            <h1>".$username."</h1>
-            <p>
-                Email: ".$email." <br />
-                Birthday: ".$birthday." <br />
-            </p>
-        </div>";
-
-    return $html_userinfo;
-}
-function tem_html_friend($friendid_list){
-    global $con;
-    $friend_num = count($friendid_list);
-    $html_friend = "";
-    for($i = 0; $i < $friend_num; $i++)
-    {
-        $html_friend_temp = "
-        <a href=\"./userinfo.php?id=".$friendid_list[$i]."\">
-        ".uid_to_name($friendid_list[$i])." <br /></a>";
-        $html_friend = $html_friend.$html_friend_temp;
-    }
-    $html_friend = "
-    <div class=\"friends\">
-       <h2>Friends</h2>"
-       .$html_friend."
-    </div>";
-
-    return $html_friend;
-}
-function tem_html_add_friend(){
-    $html_add_friend = "
-    <div class=\"add_friend\">
-        <form method=\"post\" action=\"./add_friend.php\">
-            <span><input type=\"submit\" value=\"Add friend\"></span>
-            <span>friend id:<input type=\"text\" name=\"friend_id\"/></span>
-            <span>relationship:<input type=\"text\" name=\"relationship\"/></span>
-        </form>
-    </div>
-    ";
-    return $html_add_friend;
-}
 // controller
 function userinfo(){
     global $con;
