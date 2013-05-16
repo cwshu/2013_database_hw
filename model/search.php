@@ -84,8 +84,7 @@ function get_all_article($postid_list, $uid)
         return $articles;
     $sql = "select uid, postid, content, time from articles
             where uid = '".$postid_list[0]."' ";
-    for($i = 1; $i < $people_num; $i++)
-    {
+    for($i = 1; $i < $people_num; $i++){
         $sql = $sql."or uid = '".$postid_list[$i]."' ";
     }
     $sql = $sql."order by time desc;";
@@ -93,8 +92,7 @@ function get_all_article($postid_list, $uid)
     // where uid = 'aaa' {or uid = "bbb"} {or uid = "ccc"} order by time desc
     $result = mysqli_query($con, $sql);
     $num = mysqli_num_rows($result);
-    for($i = 0; $i < $num; $i++)
-    {
+    for($i = 0; $i < $num; $i++){
         $row = mysqli_fetch_array($result);
         $articles[$i] = array(
         "uid" => $row["uid"] ,
@@ -118,6 +116,9 @@ function like_population($postid){
 
 function is_like($postid, $uid){
     global $con;
+    $postid = mysqli_real_escape_string($con, $postid);
+    $uid = mysqli_real_escape_string($con, $uid);
+
     $sql = "select * from likes where postid = '".$postid."' and uid = '".$uid."';";
     // echo $sql."<br />";
     $result = mysqli_query($con, $sql);

@@ -3,6 +3,7 @@ include_once "./db_connect.php";
 include_once "./base.php";
 include_once "./model/search.php";
 include_once "./model/insert.php";
+include_once "./model/delete.php";
 
 // main
 function like(){
@@ -18,11 +19,18 @@ function like(){
     $postid = $_GET["postid"];
     $uid = $_SESSION["uid"];
     if(!is_article_exist($postid))
-        return alert("this article doesn't exist");
+        return alert_msg("this article doesn't exist");
 
-    $result = insert_like_article($postid, $uid);
-    if(!$result)
-        return alert_msg("Failed");
+    if(!is_like($postid, $uid)){
+        $result = insert_like_article($postid, $uid);
+        if(!$result)
+            return alert_msg("unlike article failed");
+    }
+    else{
+        $result = delete_like_article($postid, $uid);
+        if(!$result)
+            return alert_msg("like article failed");
+    }
     
     return redirect("./main.php");
 }

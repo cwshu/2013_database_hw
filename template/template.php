@@ -71,7 +71,7 @@ function tem_html_show_article($articles){ // element: uid, content, time
     for($i = 0; $i < $article_num; $i++)
     {
         if($articles[$i]["is_like"])
-            $like_msg = "";
+            $like_msg = "unlike";
         else
             $like_msg = "like";
 
