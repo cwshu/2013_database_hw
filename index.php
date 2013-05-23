@@ -37,7 +37,18 @@
             </form>
             <!-- <a href="./" target="_blank">驗證</a> -->
         </div>
+        <!--
+        <form method="post" action="test.php">
+            <div><input type="hidden" name="postid" value="123456" /></div>
+            <div><input type="submit" value="x"></div>
+        </form>
+        -->
     </div>
+    <!--
+    <div>
+        <img src=".\static\中文喔.png" />
+    </div>
+    -->
     <?php 
     /*
     date_default_timezone_set("Asia/Taipei");

@@ -74,11 +74,21 @@ function tem_html_show_article($articles){ // element: uid, content, time
             $like_msg = "unlike";
         else
             $like_msg = "like";
+        if($articles[$i]["is_your_article"] == true)
+            $delete_article_msg = "
+            <form class=\"delete_article\" method=\"post\" action=\"./delete_article.php\">
+                <input type=\"hidden\" name=\"postid\" value=\"".$articles[$i]["postid"]."\" />
+                <input type=\"submit\" value=\"x\">
+            </form>";
+        else
+            $delete_article = "";
 
         $_html_article = "
         <div>
-           <p><a href=\"./userinfo.php?id=".$articles[$i]["uid"]."\" class=\"name\">
-           ".uid_to_name($articles[$i]['uid'])."</a> says </p>
+           <div class=\"art_head\">
+           <a href=\"./userinfo.php?id=".$articles[$i]["uid"]."\" class=\"name\">
+           ".uid_to_name($articles[$i]['uid'])."</a><span> says</span>".$delete_article_msg."
+           </div>
            <p class=\"border\">".$articles[$i]['content']."</p>
            <p>
                <a href=\"./like.php?postid=".$articles[$i]["postid"]."\">".$like_msg."</a>

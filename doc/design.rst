@@ -2,7 +2,10 @@
 page relations
 ==============
 | db_connect.php // *for all page need db*
-| base.php // 
+| base.php 
+|  main page
+|  userinfo
+|  delete user // delete_user.php
 
 | index.php    // *首頁*
 |  login => login.php (select)
@@ -12,10 +15,13 @@ page relations
 |  list friend
 |  post article => post_article.php
 |  like article => like.php
+|  delete like => like.php
+|  delete article => delete_article.php
 | userinfo.php 
 |  list userinfo 
 |  list friend
 |  add friend => add_friend.php
+|  delete friend => delete_friend.php
 | logout.php   // *unset session["uid"]*
 
 =====

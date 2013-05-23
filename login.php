@@ -16,13 +16,13 @@ function login(){
     $uid = mysqli_real_escape_string($con, $_POST['uid']);
     $password = mysqli_real_escape_string($con, $_POST['password']);
     if(!authentication($uid, $password))
-        return alert_msg("wrong password");
+        return alert_msg("wrong password").redirect("./index.php");
     // login success, save user in session, and redirect to main page
     $_SESSION["uid"] = $uid;
 
-    $ret = alert_msg("login success");
+    // $ret = alert_msg("login success");
     // $ret = $ret.back_hyperlink("./main.php", "Main page");
-    $ret = $ret.redirect("./main.php");
+    $ret = redirect("./main.php");
 
     mysqli_close($con);
     return $ret;

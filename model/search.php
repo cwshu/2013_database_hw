@@ -48,6 +48,25 @@ function is_email_exist($email){
     return false;
 }
 
+function _is_friend($uid, $friend_id){
+    global $con;
+    $stmt = mysqli_prepare($con, "select * from friends where uid = ? and friend_id = ?");
+    if(!$stmt)
+        return false;
+
+    mysqli_stmt_bind_param($stmt, "ss", $user, $friend);
+    $user = $uid;
+    $friend = $friend_id;
+    mysqli_stmt_execute($stmt);
+    $ret = mysqli_stmt_fetch($stmt);
+    mysqli_stmt_close($stmt);
+    return $ret;
+}
+function is_friend($uid, $friend_id){
+    $ret1 = _is_friend($uid, $friend_id);
+    $ret2 = _is_friend($friend_id, $uid);
+    return $ret1 && $ret2;
+}
 function list_all_friendid($uid)
 {
     // list all your friends
@@ -73,6 +92,23 @@ function is_article_exist($postid){
     if($num == 0)
         return false;
     return true;
+}
+function list_all_article_id($uid){
+    global $con;
+
+    $stmt = mysqli_prepare($con, "
+    select postid from articles where uid = ?");
+    if(!$stmt) return false;
+
+    mysqli_stmt_bind_param($stmt, "s", $uid);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_bind_result($stmt, $postid);
+    $postids = array();
+    while(mysqli_stmt_fetch($stmt)){
+        $postids[] = $postid;
+    }
+    mysqli_stmt_close($stmt);
+    return $postids;
 }
 function get_all_article($postid_list, $uid)
 {
@@ -102,8 +138,21 @@ function get_all_article($postid_list, $uid)
         );
         $articles[$i]["like_population"] = like_population($articles[$i]["postid"]);
         $articles[$i]["is_like"] = is_like($articles[$i]["postid"], $uid);
+        $articles[$i]["is_your_article"] = ($uid == $row["uid"]);
     }
     return $articles;
+}
+function get_uid_of_article($postid){
+    global $con;
+    if(!is_article_exist($postid)) return false;
+    
+    $stmt = mysqli_prepare($con, "select uid from articles where postid = ?");
+    mysqli_stmt_bind_param($stmt, "i", $postid);
+    mysqli_stmt_bind_result($stmt, $uid);
+    mysqli_stmt_execute($stmt);
+    if(mysqli_stmt_fetch($stmt))
+        return $uid;
+    return false;
 }
 
 function like_population($postid){
@@ -113,7 +162,21 @@ function like_population($postid){
     $row = mysqli_fetch_array($result);
     return $row["count(*)"];
 }
-
+function list_uid_like_article($postid){
+    global $con;
+    $stmt = mysqli_prepare($con, "
+    select uid from likes where postid = ?");
+    if(!$stmt) return false;
+    mysqli_stmt_bind_param($stmt, "i", $postid);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_bind_result($stmt, $uid);
+    $uids = array();
+    while(mysqli_stmt_fetch($stmt)){
+        $uids[] = $uid;
+    }
+    mysqli_stmt_close($stmt);
+    return $uids;
+}
 function is_like($postid, $uid){
     global $con;
     $postid = mysqli_real_escape_string($con, $postid);
