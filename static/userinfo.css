@@ -18,10 +18,10 @@ body {
     padding: 3px 10px;
 }
 
-.add_friend p{
+.add_friend p, .delete_friend p{
     margin: 0px;
     padding: 0px;
 }
-.add_friend span{
+.add_friend span, .delete_friend span{
     padding: 0 20px 0 0;
 }

@@ -19,7 +19,7 @@ body{
     float: right;
     padding: 0 20px 0 0;
 }
-.fixed_header .function a{
+.fixed_header .function a, .fixed_header .function form{
     border-width: 0 0 0 2px;
     border-style: solid;
     border-color: #808080;
@@ -28,5 +28,8 @@ body{
 .fixed_header a{
     font-weight: normal;
     color: yellow;
+}
+.fixed_header .function form{
+    display: inline;
 }
 

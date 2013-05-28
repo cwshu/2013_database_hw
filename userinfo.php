@@ -34,18 +34,22 @@ function userinfo(){
     $birthday = $myinfo["birthday"];
 
     $html_header = tem_html_header($_SESSION["uid"]);
-    $html_userinfo = tem_html_userinfo($username, $email, $birthday);
-    if($_SESSION["uid"] == $uid)
+    $html_userinfo = tem_html_userinfo($uid, $username, $email, $birthday);
+    if($_SESSION["uid"] == $uid){
         $html_add_friend = tem_html_add_friend();
-    else
+        $html_delete_friend = tem_html_delete_friend();
+    }
+    else{
         $html_add_friend = "";
+        $html_delete_friend = "";
+    }
 
     $friendid_list = list_all_friendid($uid);
     $html_friend = tem_html_friend($friendid_list);
 
     $html_page = $html_header."
                  <div class=\"content\">
-                    ".$html_userinfo.$html_add_friend.$html_friend."
+                    ".$html_userinfo.$html_add_friend.$html_delete_friend.$html_friend."
                  </div>";
 
     mysqli_close($con);

@@ -16,7 +16,7 @@ function like(){
     if(mysqli_connect_errno($con))
         return "Fail to connect to MySQL: ".mysqli_connect_error();
 
-    $postid = $_GET["postid"];
+    $postid = mysqli_real_escape_string($con, $_GET["postid"]);
     $uid = $_SESSION["uid"];
     if(!is_article_exist($postid))
         return alert_msg("this article doesn't exist");

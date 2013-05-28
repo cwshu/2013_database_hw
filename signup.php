@@ -33,7 +33,7 @@ function signup(){
     $name = mysqli_real_escape_string($con, $_POST["name"]);
     $email = mysqli_real_escape_string($con, $_POST["email"]);
     $birthday = mysqli_real_escape_string($con, $_POST["birthday"]);
-    $sex = $_POST["sex"];
+    $sex = mysqli_real_escape_string($con, $_POST["sex"]);
 
     if(is_uid_exist($uid)) 
         return alert_msg("This account is already used").redirect("./index.php");

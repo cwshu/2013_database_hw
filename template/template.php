@@ -1,10 +1,11 @@
 <?php
 // html templates
-function tem_html_userinfo($username, $email, $birthday){
+function tem_html_userinfo($uid, $username, $email, $birthday){
     $html_userinfo = "
         <div class=\"userinfo\">
             <h1>".$username."</h1>
             <p>
+                account: ".$uid." <br />
                 Email: ".$email." <br />
                 Birthday: ".$birthday." <br />
             </p>
@@ -44,6 +45,17 @@ function tem_html_add_friend(){
     ";
     return $html_add_friend;
 }
+function tem_html_delete_friend(){
+    $html_delete_friend = "
+    <div class=\"delete_friend\">
+        <form method=\"post\" action=\"./delete_friend.php\">
+            <span><input type=\"submit\" value=\"Delete friend\"></span>
+            <span>friend id:<input type=\"text\" name=\"friend_id\"/></span>
+        </form>
+    </div>
+    ";
+    return $html_delete_friend;
+}
 
 function tem_html_article($articles){
     $html_article = "
@@ -65,39 +77,45 @@ function tem_html_post_article(){
     ";
     return $html_article;
 }
+function _tem_html_show_article($article){
+    if($article["is_like"])
+        $like_msg = "unlike";
+    else
+        $like_msg = "like";
+
+    if($article["is_your_article"])
+        $delete_article_msg = "
+        <form class=\"delete_article\" method=\"post\" action=\"./delete_article.php\">
+            <input type=\"hidden\" name=\"postid\" value=\"".$article["postid"]."\" />
+            <input type=\"submit\" value=\"x\">
+        </form>";
+    else
+        $delete_article_msg = "";
+
+    $html_article = "
+    <div>
+       <div class=\"art_head\">
+           <a href=\"./userinfo.php?id=".$article["uid"]."\" class=\"name\">
+           ".uid_to_name($article['uid'])."</a><span> says</span>".$delete_article_msg."
+       </div>
+       <p class=\"border\">".$article['content']."</p>
+       <p>
+           <a href=\"./like.php?postid=".$article["postid"]."\">".$like_msg."</a>
+           <span>".$article["like_population"]." like </span>
+           <span class=\"time\"> 
+              <span class=\"it\">posted at </span>".$article['time']."
+           </span>
+       </p>
+    </div>";
+
+    return $html_article;
+}
 function tem_html_show_article($articles){ // element: uid, content, time
     $article_num = count($articles);
     $html_article = "";
     for($i = 0; $i < $article_num; $i++)
     {
-        if($articles[$i]["is_like"])
-            $like_msg = "unlike";
-        else
-            $like_msg = "like";
-        if($articles[$i]["is_your_article"] == true)
-            $delete_article_msg = "
-            <form class=\"delete_article\" method=\"post\" action=\"./delete_article.php\">
-                <input type=\"hidden\" name=\"postid\" value=\"".$articles[$i]["postid"]."\" />
-                <input type=\"submit\" value=\"x\">
-            </form>";
-        else
-            $delete_article = "";
-
-        $_html_article = "
-        <div>
-           <div class=\"art_head\">
-           <a href=\"./userinfo.php?id=".$articles[$i]["uid"]."\" class=\"name\">
-           ".uid_to_name($articles[$i]['uid'])."</a><span> says</span>".$delete_article_msg."
-           </div>
-           <p class=\"border\">".$articles[$i]['content']."</p>
-           <p>
-               <a href=\"./like.php?postid=".$articles[$i]["postid"]."\">".$like_msg."</a>
-               <span>".$articles[$i]["like_population"]." like </span>
-               <span class=\"time\"> 
-                  <span class=\"it\">posted at </span>".$articles[$i]['time']."
-               </span>
-           </p>
-        </div>";
+        $_html_article = _tem_html_show_article($articles[$i]);
         $html_article = $html_article.$_html_article;
     }
     return $html_article;

@@ -25,11 +25,11 @@ function delete_user($uid){
     }
     return true;
 }
-function delete_friend($uid, $friendid){
+function delete_friend($uid, $friend_id){
     global $con;
     if(!is_uid_exist($uid))
         return false;
-    if(!is_uid_exist($friendid))
+    if(!is_uid_exist($friend_id))
         return false;
     if(!is_friend($uid, $friend_id))
 

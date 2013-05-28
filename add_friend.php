@@ -14,7 +14,7 @@ function add_friend(){
     if(mysqli_connect_errno($con))
         return "Fail to connect to MySQL: ".mysqli_connect_error();
     
-    $friend_id = $_POST["friend_id"];
+    $friend_id = mysqli_real_escape_string($con, $_POST["friend_id"]);
     $uid = $_SESSION["uid"];
     if(!is_uid_exist($friend_id))
         return alert_msg($friend_id." doesn't exist, please check your friend's id again");

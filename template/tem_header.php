@@ -10,6 +10,9 @@ function tem_html_header($uid){
             <a href=\"./main.php\">Main page</a>
             <a href=\"./userinfo.php?id=".$uid."\">User Info</a>
             <a href=\"./logout.php\">Logout</a>
+            <form method=\"post\" action=\"./delete_user.php\">
+                <input type=\"submit\" value=\"delete account\">
+            </form>
         </span>
     </div>";
 
