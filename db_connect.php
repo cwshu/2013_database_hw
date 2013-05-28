@@ -10,6 +10,7 @@ function db_connection(){
 
     /* how to use
     // connect db
+    global $con;
     $con = db_connection();
     if(mysqli_connect_errno($con)){
         echo "Fail to connect to MySQL: ".mysqli_connect_error();

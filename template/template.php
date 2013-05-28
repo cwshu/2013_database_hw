@@ -8,10 +8,24 @@ function tem_html_userinfo($uid, $username, $email, $birthday){
                 account: ".$uid." <br />
                 Email: ".$email." <br />
                 Birthday: ".$birthday." <br />
+                <a href=\"./change_userinfo.php\">change personal infomation</a>
             </p>
-        </div>";
+        </div>
+        ";
 
     return $html_userinfo;
+}
+function tem_html_change_userinfo($name, $email, $birthday){
+    $html_ch_userinfo="
+    <form method=\"post\" action=\"./change_userinfo.php\">
+        Name: <input type=\"text\" name=\"name\" value=\"".$name."\"> <br />
+        Email: <input type=\"text\" name=\"email\" value=\"".$email."\"> <br />
+        Birthday: <input type=\"text\" name=\"birthday\" value=\"".$birthday."\"> <br />
+        <input type=\"submit\" value=\"修改\">
+    </form>
+    <a href=\"./userinfo.php\">Back to userinfo</a>
+    ";
+    return $html_ch_userinfo;
 }
 
 function tem_html_friend($friendid_list){

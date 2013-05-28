@@ -9,6 +9,8 @@ tables
 |  uid, postid, content, time
 | likes
 |  postid, uid
+| responses
+|  postid, r_postid, uid, content, time
 
 usage
 -----

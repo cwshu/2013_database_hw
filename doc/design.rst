@@ -15,13 +15,16 @@ page relations
 |  list friend
 |  post article => post_article.php
 |  like article => like.php
+|  response article => response.php *undo* 
 |  delete like => like.php
 |  delete article => delete_article.php
+|  delete response => delete_response.php *undo*
 | userinfo.php 
 |  list userinfo 
 |  list friend
 |  add friend => add_friend.php
 |  delete friend => delete_friend.php
+|  change userinfo => change_userinfo.php
 | logout.php   // *unset session["uid"]*
 
 =====
