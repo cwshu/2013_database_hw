@@ -1,10 +1,13 @@
 <?php
 // html templates
 function tem_html_userinfo($uid, $username, $email, $birthday, $img_file_ext){
+    if($img_file_ext == "0") // no icon
+        $icon = "";
+    else
+        $icon = tem_html_show_icon($uid, $img_file_ext, 200);
     $html_userinfo = "
         <div class=\"userinfo\">
-            <img src=\"./upload/".$uid."_icon.".$img_file_ext."\"
-                 width=\"200\" height=\"200\" />
+            ".$icon."
             <h1>".$username."</h1>
             <p>
                 account: ".$uid." <br />
@@ -35,8 +38,9 @@ function tem_html_change_icon($img_file_ext, $uid){
     if($img_file_ext == "0") // img doesn't exist
         $tem_show_icon = "";
     else
-        $tem_show_icon = tem_html_show_icon($uid, $img_file_ext);
-
+        $tem_show_icon = "
+        <span>Your icon:<br /><span>".tem_html_show_icon($uid, $img_file_ext, 200);
+    
     $ret = $tem_show_icon._change_icon_form();
     $ret = $ret.back_hyperlink("./userinfo.php", "Userinfo");
     return $ret;
@@ -50,10 +54,10 @@ function _change_icon_form(){
     ";
     return $form;
 }
-function tem_html_show_icon($uid, $img_file_ext){
+function tem_html_show_icon($uid, $img_file_ext, $size){
     $icon = "
-    <span>Your icon:<br /><span>
-    <img src=\"./upload/".$uid."_icon.".$img_file_ext."\" width=\"200\" height=\"200\" />
+    <img src=\"./upload/".$uid."_icon.".$img_file_ext."\"
+         width=\"".$size."\" height=\"".$size."\" />
     ";
     return $icon;
 }
@@ -121,6 +125,16 @@ function tem_html_post_article(){
     ";
     return $html_article;
 }
+function tem_html_show_article($articles){ // element: uid, content, time
+    $article_num = count($articles);
+    $html_article = "";
+    for($i = 0; $i < $article_num; $i++)
+    {
+        $_html_article = _tem_html_show_article($articles[$i]);
+        $html_article = $html_article.$_html_article;
+    }
+    return $html_article;
+}
 function _tem_html_show_article($article){
     if($article["is_like"])
         $like_msg = "unlike";
@@ -136,11 +150,17 @@ function _tem_html_show_article($article){
     else
         $delete_article_msg = "";
 
+    if($article["icon"] != false)
+        $icon = tem_html_show_icon($article["uid"], $article["icon"], 30);
+    else
+        $icon = "";
+
     $html_article = "
     <div>
        <div class=\"art_head\">
+           ".$icon."
            <a href=\"./userinfo.php?id=".$article["uid"]."\" class=\"name\">
-           ".uid_to_name($article['uid'])."</a><span> says</span>".$delete_article_msg."
+           ".uid_to_name($article["uid"])."</a><span> says</span>".$delete_article_msg."
        </div>
        <p class=\"border\">".$article['content']."</p>
        <p>
@@ -152,16 +172,6 @@ function _tem_html_show_article($article){
        </p>
     </div>";
 
-    return $html_article;
-}
-function tem_html_show_article($articles){ // element: uid, content, time
-    $article_num = count($articles);
-    $html_article = "";
-    for($i = 0; $i < $article_num; $i++)
-    {
-        $_html_article = _tem_html_show_article($articles[$i]);
-        $html_article = $html_article.$_html_article;
-    }
     return $html_article;
 }
 ?>

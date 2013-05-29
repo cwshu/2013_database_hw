@@ -7,7 +7,7 @@ function authentication($uid, $password){
     // authenticate user account and password
     global $con;
 
-    $sql = "select uid from users   
+    $sql = "select uid from users
             where uid = '".$uid."'
             and password = md5('".$password."');";
     //echo $sql."<br />";
@@ -148,6 +148,7 @@ function get_all_article($postid_list, $uid)
         "time" => $row["time"],
         "postid" => $row["postid"]
         );
+        $articles[$i]["icon"] = is_icon_exist($articles[$i]["uid"]);
         $articles[$i]["like_population"] = like_population($articles[$i]["postid"]);
         $articles[$i]["is_like"] = is_like($articles[$i]["postid"], $uid);
         $articles[$i]["is_your_article"] = ($uid == $row["uid"]);
