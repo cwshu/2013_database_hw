@@ -7,10 +7,10 @@ tables
 |  uid, friend_id, relationship
 | articles
 |  uid, postid, content, time
-| likes
-|  postid, uid
 | responses
 |  postid, r_postid, uid, content, time
+| likes
+|  postid, uid
 
 users-icon-path/name:
 ./upload/[uid]_icon.xxx

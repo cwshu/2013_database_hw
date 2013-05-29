@@ -13,6 +13,7 @@ page relations
 | main.php     // *FaceNote 主頁面*
 |  list article
 |  list friend
+|  list response
 |  post article => post_article.php
 |  like article => like.php
 |  response article => response.php *undo* 

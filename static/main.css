@@ -36,10 +36,22 @@ body {
     resize: none;
     width: 100%;
 }
-.article .art_head{
+.article div .responses{
+    background-color:#cfcfff;
+    padding: 5px;
+    border-width: 0px;
+}
+.article div .responses div{
+    padding: 0px;
+    border-width: 0px;
+}
+.article .responses textarea{
+    width: 90%;
+}
+.article .art_head, .article .responses .resp_head{
     padding: 0px;
 }
-.delete_article{
+.delete_article, .delete_response{
     display: inline;
 }
 

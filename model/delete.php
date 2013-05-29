@@ -56,6 +56,28 @@ function delete_article($postid){
     foreach($liked_people as $key => $uid){
         delete_like_article($postid, $uid);
     }
+    _delete_responses_of_article($postid);
+    return true;
+}
+function _delete_responses_of_article($postid){
+    global $con;
+    $sql = "delete from responses where postid = '".$postid."';";
+    // $postid = mysqli_real_escape_string($con, $postid);
+    mysqli_query($con, $sql);
+}
+function delete_response($postid, $r_postid){
+    global $con;
+    if(!is_response_exist($postid, $r_postid))
+        return false;
+
+    $postid = mysqli_real_escape_string($con, $postid);
+    $r_postid = mysqli_real_escape_string($con, $r_postid);
+    $sql = "delete from responses where postid = '".$postid."' 
+            and r_postid = '".$r_postid."';";
+    $result = mysqli_query($con, $sql);
+    if(!$result)
+        return false;
+
     return true;
 }
 function delete_like_article($postid, $uid){ // unlike article

@@ -148,10 +148,11 @@ function get_all_article($postid_list, $uid)
         "time" => $row["time"],
         "postid" => $row["postid"]
         );
-        $articles[$i]["icon"] = is_icon_exist($articles[$i]["uid"]);
+        $articles[$i]["icon"] = is_icon_exist($row["uid"]);
         $articles[$i]["like_population"] = like_population($articles[$i]["postid"]);
         $articles[$i]["is_like"] = is_like($articles[$i]["postid"], $uid);
         $articles[$i]["is_your_article"] = ($uid == $row["uid"]);
+        $articles[$i]["responses"] = get_responses_by_postid($row["postid"], $uid);
     }
     return $articles;
 }
@@ -166,6 +167,52 @@ function get_uid_of_article($postid){
     if(mysqli_stmt_fetch($stmt))
         return $uid;
     return false;
+}
+
+function is_response_exist($postid, $r_postid){
+    global $con;
+    $sql = "select postid from responses where postid = '".$postid."' 
+            and r_postid = '".$r_postid."';";
+    $result = mysqli_query($con, $sql);
+    $num = mysqli_num_rows($result);
+    if($num == 0)
+        return false;
+    return true;
+}
+function get_uid_of_response($postid, $r_postid){
+    global $con;
+    if(!is_response_exist($postid, $r_postid)) return false;
+    
+    $stmt = mysqli_prepare($con, "select uid from responses 
+                                  where postid = ? and r_postid = ?");
+    mysqli_stmt_bind_param($stmt, "ii", $postid, $r_postid);
+    mysqli_stmt_bind_result($stmt, $uid);
+    mysqli_stmt_execute($stmt);
+    if(mysqli_stmt_fetch($stmt))
+        return $uid;
+    return false;
+}
+function get_responses_by_postid($postid, $uid){
+    global $con;
+    $sql = "select postid, r_postid, uid, content, time
+            from responses where postid = '".$postid."'
+            order by time";
+    $result = mysqli_query($con, $sql);
+    $num = mysqli_num_rows($result);
+    $responses = array();
+    for($i = 0; $i < $num; $i++){
+        $row = mysqli_fetch_array($result);
+        $responses[$i] = array(
+        "postid" => $row["postid"] ,
+        "r_postid" => $row["r_postid"] ,
+        "uid" => $row["uid"] ,
+        "content" => $row["content"] ,
+        "time" => $row["time"]
+        );
+        $responses[$i]["icon"] = is_icon_exist($row["uid"]);
+        $responses[$i]["is_your_response"] = ($uid == $row["uid"]);
+    }
+    return $responses;
 }
 
 function like_population($postid){

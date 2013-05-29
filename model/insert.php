@@ -57,6 +57,31 @@ function insert_article($uid, $content){
     return $result;
 }
 
+function insert_response($postid, $uid, $content){
+    global $con;
+    date_default_timezone_set("Asia/Taipei");
+    $date = date("Y-m-d H:i:s", time());
+    $content = htmlspecialchars($content); // XSS attack
+    $content = nl2br($content); // newlines to HTML line break
+    $content = mysqli_real_escape_string($con, $content); // sql injection
+
+    // select newest r_postid
+    $sql = "select r_postid from responses where postid = '".$postid."'
+            order by r_postid desc limit 1";
+    $result = mysqli_query($con, $sql);
+    if(mysqli_num_rows($result) == 0) // no article in DB
+        $r_postid = 1;
+    else{
+        $row = mysqli_fetch_array($result);
+        $r_postid = $row["r_postid"] + 1;
+    }
+    
+    $sql = "insert into responses value
+            ('".$postid."', '".$r_postid."', '".$uid."', '".$content."', '".$date."')";
+    $result = mysqli_query($con, $sql);
+    return $result;
+}
+
 function insert_like_article($postid, $uid){
     // notice: you should include /model/search.php
     global $con;

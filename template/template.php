@@ -48,8 +48,9 @@ function tem_html_change_icon($img_file_ext, $uid){
 function _change_icon_form(){
     $form = "
     <form method=\"post\" action=\"./change_icon.php\" enctype=\"multipart/form-data\">
-        <input type=\"file\" name=\"icon\" >
-        <input type=\"submit\">
+        Upload Your Icon:
+        <input type=\"file\" name=\"icon\" > <br />
+        <input type=\"submit\" value=\"確認\">
     </form>
     ";
     return $form;
@@ -155,6 +156,7 @@ function _tem_html_show_article($article){
     else
         $icon = "";
 
+    $html_responses = tem_html_response($article["responses"], $article["postid"]);
     $html_article = "
     <div>
        <div class=\"art_head\">
@@ -170,8 +172,70 @@ function _tem_html_show_article($article){
               <span class=\"it\">posted at </span>".$article['time']."
            </span>
        </p>
+       ".$html_responses."
     </div>";
 
     return $html_article;
+}
+function tem_html_response($responses, $postid){
+    $html_response = "
+    <div class=\"responses\">
+    ".tem_html_post_response($postid).tem_html_show_response($responses)."
+    </div>";
+
+    return $html_response;
+}
+function tem_html_post_response($postid){
+    $html_response = "
+    <div>
+        <form method=\"post\" action=\"./response.php\">
+            <textarea name=\"content\"></textarea>
+            <input type=\"hidden\" name=\"postid\" value=\"".$postid."\">
+            <input type=\"submit\" value=\"回復\">
+        </form>
+    </div>
+    ";
+    return $html_response;
+}
+function tem_html_show_response($responses){ // element: uid, content, time
+    $response_num = count($responses);
+    $html_response = "";
+    for($i = 0; $i < $response_num; $i++)
+    {
+        $_html_response = _tem_html_show_response($responses[$i]);
+        $html_response = $html_response.$_html_response;
+    }
+    return $html_response;
+}
+function _tem_html_show_response($response){
+    if($response["is_your_response"])
+        $delete_response_msg = "
+        <form class=\"delete_response\" method=\"post\" action=\"./delete_response.php\">
+            <input type=\"hidden\" name=\"postid\" value=\"".$response["postid"]."\" />
+            <input type=\"hidden\" name=\"r_postid\" value=\"".$response["r_postid"]."\" />
+            <input type=\"submit\" value=\"x\">
+        </form>";
+    else
+        $delete_response_msg = "";
+
+    if($response["icon"] != false)
+        $icon = tem_html_show_icon($response["uid"], $response["icon"], 30);
+    else
+        $icon = "";
+
+    $html_response = "
+    <div>
+       <div class=\"resp_head\">
+           ".$icon."
+           <a href=\"./userinfo.php?id=".$response["uid"]."\" class=\"name\">
+           ".uid_to_name($response["uid"])."</a><span> says</span>".$delete_response_msg."
+           <span class=\"time\"> 
+              <span class=\"it\">posted at </span>".$response['time']."
+           </span>
+       </div>
+       <p class=\"border\">".$response['content']."</p>
+    </div>";
+
+    return $html_response;
 }
 ?>
