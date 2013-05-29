@@ -15,5 +15,14 @@ function update_userinfo($uid, $name, $email, $birthday){
         return true;
     return false; 
 }
+function update_icon($uid, $file_ext){
+    global $con;
+
+    $sql = "update users set icon = '".$file_ext."' where uid = '".$uid."'";
+    if(mysqli_query($con, $sql))
+        return true;
+    return false;
+}
+//function delete_icon($uid){ }
     
 ?>

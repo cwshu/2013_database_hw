@@ -1,8 +1,10 @@
 <?php
 // html templates
-function tem_html_userinfo($uid, $username, $email, $birthday){
+function tem_html_userinfo($uid, $username, $email, $birthday, $img_file_ext){
     $html_userinfo = "
         <div class=\"userinfo\">
+            <img src=\"./upload/".$uid."_icon.".$img_file_ext."\"
+                 width=\"200\" height=\"200\" />
             <h1>".$username."</h1>
             <p>
                 account: ".$uid." <br />
@@ -23,9 +25,37 @@ function tem_html_change_userinfo($name, $email, $birthday){
         Birthday: <input type=\"text\" name=\"birthday\" value=\"".$birthday."\"> <br />
         <input type=\"submit\" value=\"修改\">
     </form>
+    <a href=\"./change_icon.php\">Change icon</a><br />
     <a href=\"./userinfo.php\">Back to userinfo</a>
     ";
     return $html_ch_userinfo;
+}
+function tem_html_change_icon($img_file_ext, $uid){
+// You should include "./base.php"
+    if($img_file_ext == "0") // img doesn't exist
+        $tem_show_icon = "";
+    else
+        $tem_show_icon = tem_html_show_icon($uid, $img_file_ext);
+
+    $ret = $tem_show_icon._change_icon_form();
+    $ret = $ret.back_hyperlink("./userinfo.php", "Userinfo");
+    return $ret;
+}
+function _change_icon_form(){
+    $form = "
+    <form method=\"post\" action=\"./change_icon.php\" enctype=\"multipart/form-data\">
+        <input type=\"file\" name=\"icon\" >
+        <input type=\"submit\">
+    </form>
+    ";
+    return $form;
+}
+function tem_html_show_icon($uid, $img_file_ext){
+    $icon = "
+    <span>Your icon:<br /><span>
+    <img src=\"./upload/".$uid."_icon.".$img_file_ext."\" width=\"200\" height=\"200\" />
+    ";
+    return $icon;
 }
 
 function tem_html_friend($friendid_list){

@@ -32,9 +32,10 @@ function userinfo(){
     $username = $myinfo["name"];
     $email = $myinfo["email"];
     $birthday = $myinfo["birthday"];
+    $img_file_ext = $myinfo["icon"];
 
     $html_header = tem_html_header($_SESSION["uid"]);
-    $html_userinfo = tem_html_userinfo($uid, $username, $email, $birthday);
+    $html_userinfo = tem_html_userinfo($uid, $username, $email, $birthday, $img_file_ext);
     if($_SESSION["uid"] == $uid){
         $html_add_friend = tem_html_add_friend();
         $html_delete_friend = tem_html_delete_friend();

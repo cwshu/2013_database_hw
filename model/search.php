@@ -19,7 +19,7 @@ function authentication($uid, $password){
 function list_userinfo($uid){
     // list username, email and birthday
     global $con;
-    $sql = "select name, email, birthday from users where uid ='".$uid."';";
+    $sql = "select name, email, birthday, icon from users where uid ='".$uid."';";
     $result = mysqli_query($con, $sql);
     if(mysqli_num_rows($result) == 0)
         return false;
@@ -46,6 +46,18 @@ function is_email_exist($email){
     if($num > 0)
         return true;
     return false;
+}
+function is_icon_exist($uid){
+    global $con;
+    $sql = "select icon from users where uid = '".$uid."'";
+    $result = mysqli_query($con, $sql);
+    if(mysqli_num_rows($result) == 0)
+        return false;
+       
+    $row = mysqli_fetch_array($result);
+    if($row["icon"] == "0")
+        return false;
+    return $row["icon"];
 }
 
 function _is_friend($uid, $friend_id){

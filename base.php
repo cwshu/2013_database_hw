@@ -28,5 +28,6 @@ function back_hyperlink($path, $view){
 function redirect($path){
     return "<script>document.location.href=\"".$path."\"</script>";
 }
+//function 
 
 ?>

@@ -24,7 +24,7 @@ page relations
 |  list friend
 |  add friend => add_friend.php
 |  delete friend => delete_friend.php
-|  change userinfo => change_userinfo.php
+|  change userinfo => change_userinfo.php, change_icon.php
 | logout.php   // *unset session["uid"]*
 
 =====
@@ -58,6 +58,7 @@ model
 | /model/search.php
 | /model/insert.php
 | /model/delete.php
+| /model/update.php
 
 template
 --------

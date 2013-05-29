@@ -2,7 +2,7 @@ h1 {
     margin: 0px;
 }
 
-body {
+body{
 }
 
 .content{
@@ -16,6 +16,13 @@ body {
 .content div{
     margin: 0px;
     padding: 3px 10px;
+}
+
+.userinfo img{
+    border-style: solid;
+    border-width: 3px;
+    border-color: #808080;
+
 }
 
 .add_friend p, .delete_friend p{

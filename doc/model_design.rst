@@ -2,7 +2,7 @@
 tables
 ======
 | users
-|  uid, password, name, email, birthday, sex
+|  uid, password, name, email, birthday, sex, icon
 | friends
 |  uid, friend_id, relationship
 | articles
@@ -11,6 +11,9 @@ tables
 |  postid, uid
 | responses
 |  postid, r_postid, uid, content, time
+
+users-icon-path/name:
+./upload/[uid]_icon.xxx
 
 usage
 -----
