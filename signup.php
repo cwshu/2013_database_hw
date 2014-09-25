@@ -17,11 +17,9 @@ function is_full_info(){
 
 function signup(){
     if(!is_full_info()) 
-        return alert_msg("Please fill in complete 
-               information").redirect("./index.php");
+        return alert_msg("Please fill in complete information").redirect("./index.php");
     if($_POST["password"] != $_POST["password_again"]) 
-        return alert_msg("Password is different from 
-               Password again").redirect(".index.php");
+        return alert_msg("Password is different from Password again").redirect("./index.php");
 
     global $con;
     $con = db_connection();

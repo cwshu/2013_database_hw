@@ -32,6 +32,7 @@ function delete_friend($uid, $friend_id){
     if(!is_uid_exist($friend_id))
         return false;
     if(!is_friend($uid, $friend_id))
+        return false;
 
     $uid = mysqli_real_escape_string($con, $uid);
     $friend_id = mysqli_real_escape_string($con, $friend_id);
